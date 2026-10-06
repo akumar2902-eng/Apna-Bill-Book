@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Apna Bill Book</title>
+<style>
+:root{--bg:#f2f4f8;--card:#fff;--ink:#1c2540;--mut:#6b7491;--line:#e1e5ee;--brand:#2d3f8f;--on:#fff;--get:#1a8f4c;--give:#d6402f;--gold:#f0a91a;--sh:0 1px 2px rgba(28,37,64,.08);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10142a;--card:#1a2040;--ink:#eef0fa;--mut:#9aa3c4;--line:#2a3160;--brand:#6f86ff;--on:#10142a;--get:#4cd08a;--give:#ff7a6a}}
+:root[data-theme="dark"]{--bg:#10142a;--card:#1a2040;--ink:#eef0fa;--mut:#9aa3c4;--line:#2a3160;--brand:#6f86ff;--on:#10142a;--get:#4cd08a;--give:#ff7a6a}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 "Noto Sans","Segoe UI",system-ui,sans-serif}
+.app{max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:96px}
+header{background:var(--brand);color:var(--on);padding:18px 16px 56px}
+header h1{margin:0;font-size:22px;font-weight:800;letter-spacing:.2px}
+header p{margin:2px 0 0;font-size:13px;opacity:.8}
+.sum{margin:-40px 14px 12px;background:var(--card);border-radius:16px;padding:14px 16px;box-shadow:var(--sh);display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sum small{color:var(--mut);font-size:12px;display:block}
+.sum b{font-size:22px}
+.get{color:var(--get)}.give{color:var(--give)}
+.tabs{display:flex;gap:8px;margin:0 14px 10px}
+.tabs button,.chip{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px;border-radius:12px;font:inherit;font-weight:600}
+.tabs button[aria-selected=true]{background:var(--brand);color:var(--on);border-color:var(--brand)}
+.search{margin:0 14px 10px}
+input,select{width:100%;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.list{margin:0 14px;background:var(--card);border-radius:16px;box-shadow:var(--sh);overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer;width:100%;background:none;border-left:0;border-right:0;border-top:0;color:inherit;font:inherit;text-align:left}
+.row:last-child{border-bottom:0}
+.av{width:40px;height:40px;border-radius:50%;background:var(--gold);color:#3a2900;display:grid;place-items:center;font-weight:800;flex:none}
+.row .n{flex:1;min-width:0}.row .n b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row small{color:var(--mut)}.amt{text-align:right;font-weight:800}.amt small{display:block;font-weight:500}
+.empty{padding:28px 18px;text-align:center;color:var(--mut)}
+.fab{position:fixed;right:max(16px,calc(50% - 244px));bottom:calc(18px + env(safe-area-inset-bottom,0px));background:var(--gold);color:#3a2900;border:0;border-radius:28px;padding:14px 20px;font:inherit;font-weight:800;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.top{display:flex;align-items:center;gap:10px;background:var(--brand);color:var(--on);padding:14px 14px 18px}
+.top button{background:none;border:0;color:inherit;font-size:22px;padding:4px 8px}
+.top .n{flex:1}.top b{font-size:18px;display:block}.top small{opacity:.8}
+.bal{margin:-10px 14px 10px;background:var(--card);border-radius:16px;padding:14px 16px;box-shadow:var(--sh);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bal b{font-size:24px}
+.acts{display:flex;gap:8px;margin:0 14px 12px}
+.acts button{flex:1;border:0;border-radius:12px;padding:12px 6px;font:inherit;font-weight:700;color:#fff}
+.b-give{background:var(--give)}.b-get{background:var(--get)}.b-wa{background:#25a244}
+.tx{display:flex;justify-content:space-between;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line)}
+.tx:last-child{border-bottom:0}
+.tx small{color:var(--mut);display:block}
+.tx button{background:none;border:0;color:var(--mut);padding:0 0 0 8px;font-size:18px}
+.sheet{position:fixed;inset:0;background:rgba(10,14,35,.55);display:flex;align-items:flex-end;justify-content:center;z-index:5}
+.sheet>div{max-height:92vh;overflow:auto;background:var(--card);width:100%;max-width:520px;border-radius:20px 20px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));display:grid;gap:10px}
+.sheet h2{margin:0;font-size:18px}
+.sheet .go{background:var(--brand);color:var(--on);border:0;border-radius:12px;padding:13px;font:inherit;font-weight:700}
+.sheet .x{background:none;border:0;color:var(--mut);padding:8px;font:inherit}
+.foot{text-align:center;color:var(--mut);font-size:12px;margin:18px 14px}
+.foot button{background:none;border:0;color:var(--brand);font:inherit;text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+const K='apnaBillBook.v1';
+let S={parties:[],stock:[],upi:''};
+try{const r=localStorage.getItem(K);if(r)S=JSON.parse(r)}catch(e){}
+function norm(){S.parties=S.parties||[];S.stock=S.stock||[];S.upi=S.upi||'';S.shop=S.shop||'Verma Medical';S.billNo=S.billNo||0}
+norm();if(!S.updatedAt&&(S.parties.length||S.stock.length))S.updatedAt=Date.now();
+let tab='customer',q='',cur=null;
+const save=()=>{S.updatedAt=Date.now();try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}schedulePush()};
+const uid=()=>Math.random().toString(36).slice(2,9);
+const inr=n=>'₹'+Math.abs(n).toLocaleString('en-IN');
+const bal=p=>p.tx.reduce((a,t)=>a+t.s,0);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fd=d=>new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+const $=id=>document.getElementById(id);
+
+function home(){
+  const h=homeBase();
+  return tab==='stock'?h.replace(/<div class="list">[\s\S]*?<\/div>\s*<button class="fab"[^>]*>[^<]*<\/button>/,()=>stockHTML()):h;
+}
+function homeBase(){
+  const ps=S.parties.filter(p=>p.type===tab&&p.name.toLowerCase().includes(q.toLowerCase()));
+  let get=0,give=0;S.parties.forEach(p=>{const b=bal(p);b>0?get+=b:give-=b});
+  const lab=tab==='customer'?'Customer':'Supplier';
+  return `<header><h1>📒 ${esc(S.shop)}</h1><p>Apna Bill Book</p><button class="chip" style="margin-top:10px;width:auto;padding:6px 12px" data-upi="1">${S.upi?'UPI: '+esc(S.upi):'Dukaan / UPI ID badlein'}</button></header>
+  <div class="sum"><div><small>Aapko milenge</small><b class="get">${inr(get)}</b></div><div><small>Aapko dene hain</small><b class="give">${inr(give)}</b></div></div>
+  <div class="tabs" role="tablist"><button role="tab" aria-selected="${tab==='customer'}" data-tab="customer">Customer</button><button role="tab" aria-selected="${tab==='supplier'}" data-tab="supplier">Supplier</button><button role="tab" aria-selected="${tab==='stock'}" data-tab="stock">Stock</button></div>
+  <div class="search"><input id="q" type="search" placeholder="Naam se dhundhein" value="${esc(q)}" aria-label="Search"></div>
+  <div class="list">${ps.length?ps.map(p=>{const b=bal(p);return `<button class="row" data-open="${p.id}"><span class="av">${esc(p.name[0].toUpperCase())}</span><span class="n"><b>${esc(p.name)}</b><small>${p.tx.length} entries</small></span><span class="amt ${b>0?'get':b<0?'give':''}">${inr(b)}<small>${b>0?'Milenge':b<0?'Dene hain':'Barabar'}</small></span></button>`}).join(''):`<div class="empty">Abhi koi ${lab.toLowerCase()} nahi hai.<br>Neeche "${lab} jodein" dabayein.</div>`}</div>
+  <button class="fab" data-add="1">+ ${lab} jodein</button>
+  <div class="foot"><span id="cl">${cloudLine()}</span><br><button data-export="1">Backup download karein</button></div>`;
+}
+
+function detail(p){
+  const b=bal(p),c=p.type==='customer';
+  const tx=[...p.tx].sort((a,b)=>b.d-a.d);
+  return `<div class="top"><button data-back="1" aria-label="Wapas">←</button><span class="av">${esc(p.name[0].toUpperCase())}</span><span class="n"><b>${esc(p.name)}</b><small>${esc(p.phone||'Phone number nahi')}</small></span><button data-del="${p.id}" aria-label="Delete">🗑</button></div>
+  <div class="bal"><div><small>${b>0?'Aapko milenge':b<0?'Aapko dene hain':'Hisaab barabar'}</small><br><b class="${b>0?'get':b<0?'give':''}">${inr(b)}</b></div>${b>0?'<button class="chip" style="flex:none" data-remind="1">WhatsApp reminder</button>':''}</div>
+  <div class="acts"><button class="b-give" data-tx="${c?1:-1}">${c?'Udhaar diya':'Payment diya'}</button><button class="b-get" data-tx="${c?-1:1}" style="">${c?'Payment mila':'Maal liya'}</button></div>
+  ${c?'<div class="acts"><button class="b-wa" data-bill="new">Bill banayein</button></div>':''}
+  <div class="list">${tx.length?tx.map(t=>`<div class="tx"><span><b>${esc(t.note||(t.s>0?(c?'Udhaar diya':'Payment diya'):(c?'Payment mila':'Maal liya')))}</b><small>${fd(t.d)}${t.bill?' <button class="chip" style="flex:none;width:auto;padding:2px 8px;font-size:12px" data-bill="'+t.id+'">Bill dekhein</button>':''}</small></span><span style="display:flex;align-items:center"><b class="${t.s>0?'get':'give'}">${inr(t.s)}</b><button data-rm="${t.id}" aria-label="Entry hatayein">×</button></span></div>`).join(''):'<div class="empty">Koi entry nahi. Upar se pehli entry jodein.</div>'}</div>`;
+}
+
+function render(){
+  const p=S.parties.find(x=>x.id===cur);
+  const keep=document.activeElement&&document.activeElement.id==='q';
+  $('app').innerHTML=p?detail(p):home();
+  if(keep){const i=$('q');i.focus();i.setSelectionRange(q.length,q.length)}
+}
+function sheet(html,onGo,label){
+  const el=document.createElement('div');el.className='sheet';el.innerHTML='<div>'+html+'<button class="go">'+(label||'Save karein')+'</button><button class="x">Cancel</button></div>';
+  document.body.appendChild(el);
+  const close=()=>el.remove();
+  el.querySelector('.x').onclick=close;
+  el.onclick=e=>{if(e.target===el)close()};
+  el.querySelector('.go').onclick=()=>{if(onGo(el)!==false)close()};
+  const f=el.querySelector('input');if(f)f.focus();
+}
+function addParty(){
+  const c=tab==='customer';
+  sheet(`<h2>${c?'Naya customer':'Naya supplier'}</h2><input id="pn" placeholder="Naam" autocomplete="off"><input id="pp" type="tel" placeholder="Mobile number (optional)">`,el=>{
+    const n=el.querySelector('#pn').value.trim();if(!n){el.querySelector('#pn').focus();return false}
+    S.parties.push({id:uid(),name:n,phone:el.querySelector('#pp').value.trim(),type:tab,tx:[]});save();render();
+  });
+}
+function addTx(sign){
+  const p=S.parties.find(x=>x.id===cur),c=p.type==='customer';
+  const t=sign>0?(c?'Udhaar diya':'Payment diya'):(c?'Payment mila':'Maal liya');
+  sheet(`<h2>${t}</h2><input id="ta" type="number" inputmode="decimal" min="1" placeholder="Rakam (₹)"><input id="tn" placeholder="Note / item (optional)"><input id="td" type="date" value="${new Date().toISOString().slice(0,10)}">`,el=>{
+    const a=parseFloat(el.querySelector('#ta').value);if(!(a>0)){el.querySelector('#ta').focus();return false}
+    const d=new Date(el.querySelector('#td').value||Date.now()).getTime();
+    p.tx.push({id:uid(),s:sign*a,note:el.querySelector('#tn').value.trim(),d});save();render();
+  });
+}
+function remind(p){
+  const b=bal(p);
+  const m=`Namaste ${p.name} ji, ${S.shop} ke anusaar aapke ${inr(b)} baaki hain. Kripya jaldi bhugtan karein.${S.upi?' UPI ID: '+S.upi+' | Pay link: upi://pay?pa='+encodeURIComponent(S.upi)+'&pn='+encodeURIComponent(S.shop)+'&am='+b+'&cu=INR':''} Dhanyavaad!`;
+  const num=(p.phone||'').replace(/\D/g,'');
+  const full=num.length===10?'91'+num:num;
+  const url='https://wa.me/'+full+'?text='+encodeURIComponent(m);
+  let w=null;try{w=window.open(url,'_blank')}catch(e){}
+  if(w)return;
+  sheet(`<h2>WhatsApp reminder</h2><textarea id="rm" rows="5" style="width:100%;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px">${esc(m)}</textarea><a href="${url}" target="_blank" rel="noopener" style="color:var(--brand);font-weight:700">WhatsApp kholein</a>`,el=>{
+    const t=el.querySelector('#rm');t.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}
+    el.querySelector('.go').textContent=ok?'Copy ho gaya, WhatsApp mein paste karein':'Message ko dabakar copy karein';return false;
+  },'Message copy karein');
+}
+function exportData(){
+  const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='apna-bill-book-backup.json';a.click();
+}
+function stockHTML(){
+  const it=S.stock.filter(i=>i.name.toLowerCase().includes(q.toLowerCase()));
+  const val=S.stock.reduce((a,i)=>a+i.qty*i.price,0);
+  const b='class="chip" style="flex:none;width:36px;padding:6px 0"';
+  return `<p style="margin:0 14px 10px;color:var(--mut)">Total stock ki keemat: <b style="color:var(--ink)">${inr(val)}</b></p><div class="list">${it.length?it.map(i=>`<div class="row" style="cursor:default"><span class="n"><b>${esc(i.name)}</b><small>${inr(i.price)} per ${esc(i.unit)}${i.qty<=i.low?' <span class="give">Kam stock</span>':''}</small></span><span style="display:flex;align-items:center;gap:6px"><button ${b} data-st="${i.id}:-1" aria-label="Kam karein">-</button><b style="min-width:40px;text-align:center">${i.qty}</b><button ${b} data-st="${i.id}:1" aria-label="Badhayein">+</button><button ${b} data-sdel="${i.id}" aria-label="Item hatayein">×</button></span></div>`).join(''):'<div class="empty">Abhi koi item nahi hai.<br>Neeche "Item jodein" dabayein.</div>'}</div><button class="fab" data-add="1">+ Item jodein</button>`;
+}
+function addItem(){
+  sheet(`<h2>Naya item</h2><input id="in" placeholder="Item ka naam"><input id="iq" type="number" inputmode="decimal" placeholder="Abhi kitna stock hai"><input id="iu" placeholder="Unit (kg, pcs, packet)"><input id="ip" type="number" inputmode="decimal" placeholder="Keemat per unit (₹)"><input id="il" type="number" inputmode="decimal" placeholder="Kam stock alert (is se kam par)">`,el=>{
+    const g=x=>el.querySelector(x).value,n=g('#in').trim();
+    if(!n){el.querySelector('#in').focus();return false}
+    S.stock.push({id:uid(),name:n,qty:+g('#iq')||0,unit:g('#iu').trim()||'pcs',price:+g('#ip')||0,low:+g('#il')||0});save();render();
+  });
+}
+function setUpi(){
+  sheet(`<h2>Dukaan ki details</h2><input id="sn" placeholder="Dukaan ka naam" value="${esc(S.shop)}"><input id="u" placeholder="jaise name@bank" value="${esc(S.upi)}" autocomplete="off"><small style="color:var(--mut)">Ye ID WhatsApp reminder ke saath bheji jayegi.</small>`,el=>{S.shop=el.querySelector('#sn').value.trim()||'Verma Medical';S.upi=el.querySelector('#u').value.trim();save();render()});
+}
+function copyFrom(el,sel){const t=el.querySelector(sel);t.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}el.querySelector('.go').textContent=ok?'Copy ho gaya':'Text ko dabakar copy karein';return false}
+function billText(p,t){const b=t.bill;return [S.shop,'Bill #'+b.no+', '+fd(t.d),'Grahak: '+p.name,'',...b.items.map(i=>i.n+': '+i.q+' x '+i.r+' = '+inr(i.q*i.r)),'','Kul: '+inr(b.total),b.cash?'Cash mila':'Udhaar khate mein',S.upi?'UPI: '+S.upi:null,'Dhanyavaad!'].filter(x=>x!==null).join('\n')}
+function newBill(p){
+  const row='<div class="br" style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px"><input class="bn" placeholder="Dawai / item"><input class="bq" type="number" inputmode="decimal" placeholder="Qty"><input class="bp" type="number" inputmode="decimal" placeholder="Rate ₹"></div>';
+  sheet(`<h2>Naya bill: ${esc(p.name)}</h2><div id="rows" style="display:grid;gap:6px">${row}${row}</div><button class="chip" id="more">+ Aur item</button><select id="bm" aria-label="Payment"><option value="u">Udhaar (khate mein)</option><option value="c">Cash mila</option></select>`,el=>{
+    const items=[...el.querySelectorAll('.br')].map(r=>{const g=c=>r.querySelector(c).value;return{n:g('.bn').trim(),q:parseFloat(g('.bq'))||1,r:parseFloat(g('.bp'))||0}}).filter(i=>i.n&&i.r>0);
+    if(!items.length){el.querySelector('.bn').focus();return false}
+    const total=Math.round(items.reduce((a,i)=>a+i.q*i.r,0)*100)/100,cash=el.querySelector('#bm').value==='c';
+    S.billNo++;const bill={no:S.billNo,items,total,cash},now=Date.now(),tid=uid();
+    p.tx.push({id:tid,s:total,note:'Bill #'+bill.no,d:now,bill});
+    if(cash)p.tx.push({id:uid(),s:-total,note:'Cash mila (Bill #'+bill.no+')',d:now+1});
+    save();render();setTimeout(()=>showBill(p,tid),0);
+  },'Bill banayein');
+  $('more').onclick=()=>$('rows').insertAdjacentHTML('beforeend',row);
+}
+function billCanvas(p,t){
+  const b=t.bill,W=800,H=460+46*b.items.length+(S.upi?36:0),c=document.createElement('canvas');c.width=W;c.height=H;
+  const x=c.getContext('2d'),F='sans-serif';
+  x.fillStyle='#fff';x.fillRect(0,0,W,H);x.fillStyle='#2d3f8f';x.fillRect(0,0,W,110);
+  x.fillStyle='#fff';x.font='bold 40px '+F;x.textAlign='center';x.fillText(S.shop,W/2,70);
+  x.fillStyle='#1c2540';x.font='24px '+F;x.textAlign='left';x.fillText('Bill #'+b.no,40,160);
+  x.textAlign='right';x.fillText(fd(t.d),W-40,160);x.textAlign='left';x.fillText('Grahak: '+p.name,40,200);
+  let y=250;x.font='bold 22px '+F;x.fillStyle='#6b7491';x.fillText('Item',40,y);x.textAlign='center';x.fillText('Qty x Rate',500,y);x.textAlign='right';x.fillText('Rakam',W-40,y);
+  y+=14;x.fillStyle='#e1e5ee';x.fillRect(40,y,W-80,2);x.fillStyle='#1c2540';x.font='24px '+F;
+  b.items.forEach(i=>{y+=46;x.textAlign='left';x.fillText(i.n.slice(0,24),40,y);x.textAlign='center';x.fillText(i.q+' x '+inr(i.r),500,y);x.textAlign='right';x.fillText(inr(i.q*i.r),W-40,y)});
+  y+=24;x.fillStyle='#e1e5ee';x.fillRect(40,y,W-80,2);
+  y+=50;x.fillStyle='#1c2540';x.font='bold 32px '+F;x.textAlign='left';x.fillText('Kul',40,y);x.textAlign='right';x.fillText(inr(b.total),W-40,y);
+  y+=44;x.font='22px '+F;x.fillStyle='#6b7491';x.textAlign='left';x.fillText(b.cash?'Cash mila':'Udhaar khate mein',40,y);
+  if(S.upi){y+=36;x.fillText('UPI: '+S.upi,40,y)}
+  y+=50;x.textAlign='center';x.fillText('Dhanyavaad!',W/2,y);
+  return c;
+}
+function jpgToPdf(jpg,w,h){
+  const pw=420,ph=Math.round(420*h/w),enc=new TextEncoder(),parts=[],off=[];let len=0;
+  const add=d=>{const u=typeof d==='string'?enc.encode(d):d;parts.push(u);len+=u.length};
+  const obj=(n,body)=>{off[n]=len;add(n+' 0 obj\n'+body+'\nendobj\n')};
+  add('%PDF-1.4\n');
+  obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+  obj(3,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pw} ${ph}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>`);
+  off[4]=len;add(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${w} /Height ${h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpg.length} >>\nstream\n`);add(jpg);add('\nendstream\nendobj\n');
+  const cs=`q ${pw} 0 0 ${ph} 0 0 cm /Im0 Do Q`;
+  obj(5,`<< /Length ${cs.length} >>\nstream\n${cs}\nendstream`);
+  const xr=len;let tb='xref\n0 6\n0000000000 65535 f \n';
+  for(let i=1;i<=5;i++)tb+=String(off[i]).padStart(10,'0')+' 00000 n \n';
+  add(tb+`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xr}\n%%EOF`);
+  return new Blob(parts,{type:'application/pdf'});
+}
+async function sendFile(blob,name,type){
+  const C=window.Capacitor;
+  try{
+    if(C&&C.isNativePlatform&&C.isNativePlatform()&&C.Plugins&&C.Plugins.Filesystem&&C.Plugins.Share){
+      const data=await new Promise(res=>{const fr=new FileReader();fr.onload=()=>res(String(fr.result).split(',')[1]);fr.readAsDataURL(blob)});
+      const f=await C.Plugins.Filesystem.writeFile({path:name,data,directory:'CACHE'});
+      await C.Plugins.Share.share({title:S.shop,url:f.uri});return;
+    }
+  }catch(e){}
+  try{const dl=window.claude&&await window.claude.use('downloads');if(dl){await dl.save({filename:name,data:blob});return}}catch(e){if(e&&e.code==='declined')return}
+  try{const f=new File([blob],name,{type});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:S.shop});return}}catch(e){if(e&&e.name==='AbortError')return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();
+}
+function showBill(p,tid){
+  const t=p.tx.find(x=>x.id===tid),b=t.bill,m=billText(p,t);
+  const num=(p.phone||'').replace(/\D/g,''),full=num.length===10?'91'+num:num;
+  const url='https://wa.me/'+full+'?text='+encodeURIComponent(m);
+  sheet(`<h2 style="text-align:center">${esc(S.shop)}</h2><div style="text-align:center;color:var(--mut);font-size:13px">Bill #${b.no}, ${fd(t.d)}<br>Grahak: ${esc(p.name)}</div><div>${b.items.map(i=>`<div class="tx"><span>${esc(i.n)}<small>${i.q} x ${inr(i.r)}</small></span><b>${inr(i.q*i.r)}</b></div>`).join('')}</div><div class="tx"><b>Kul</b><b>${inr(b.total)}</b></div><div style="text-align:center;color:var(--mut)">${b.cash?'Cash mila':'Udhaar khate mein'}</div><div style="display:flex;gap:8px"><button class="chip" id="bj">JPG mein bhejein</button><button class="chip" id="bp">PDF mein bhejein</button></div><textarea id="bt" readonly style="position:absolute;left:-9999px">${esc(m)}</textarea><a href="${url}" target="_blank" rel="noopener" style="color:var(--brand);font-weight:700;text-align:center">WhatsApp par bhejein</a>`,el=>copyFrom(el,'#bt'),'Bill ka text copy karein');
+  const nm='Bill-'+b.no+'-'+(p.name.replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'')||'customer');
+  const jpg=()=>new Promise(res=>{const c=billCanvas(p,t);c.toBlob(bl=>res({bl,c}),'image/jpeg',.92)});
+  $('bj').onclick=async()=>{const{bl}=await jpg();sendFile(bl,nm+'.jpg','image/jpeg')};
+  $('bp').onclick=async()=>{const{bl,c}=await jpg();const u=new Uint8Array(await bl.arrayBuffer());sendFile(jpgToPdf(u,c.width,c.height),nm+'.pdf','application/pdf')};
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-tab],[data-open],[data-add],[data-back],[data-tx],[data-rm],[data-del],[data-remind],[data-export],[data-bill],[data-st],[data-upi],[data-sdel]');
+  if(!t)return;const d=t.dataset,p=S.parties.find(x=>x.id===cur);
+  if(d.tab){tab=d.tab;render()}
+  else if(d.open){cur=d.open;render();scrollTo(0,0)}
+  else if(d.add)(tab==='stock'?addItem():addParty());
+  else if(d.st){const[id,n]=d.st.split(':');const i=S.stock.find(x=>x.id===id);i.qty=Math.max(0,Math.round((i.qty+ +n)*1000)/1000);save();render()}
+  else if(d.sdel){const i=S.stock.find(x=>x.id===d.sdel);if(confirm(i.name+' ko hatana hai?')){S.stock=S.stock.filter(x=>x.id!==i.id);save();render()}}
+  else if(d.bill)(d.bill==='new'?newBill(p):showBill(p,d.bill));
+  else if(d.upi)setUpi();
+  else if(d.back){cur=null;render()}
+  else if(d.tx)addTx(+d.tx);
+  else if(d.rm){p.tx=p.tx.filter(x=>x.id!==d.rm);save();render()}
+  else if(d.del){if(confirm(p.name+' ko aur uski saari entries ko hatana hai?')){S.parties=S.parties.filter(x=>x.id!==cur);cur=null;save();render()}}
+  else if(d.remind)remind(p);
+  else if(d.export)exportData();
+});
+document.addEventListener('input',e=>{if(e.target.id==='q'){q=e.target.value;render()}});
+let cloudState='off',cloudCol=null,pushT=null,pushing=false,again=false;
+function cloudLine(){return cloudState==='ok'?'☁ Cloud backup chalu: isi login se kisi bhi device par data aayega.':cloudState==='sync'?'☁ Backup ho raha hai...':cloudState==='err'?'☁ Cloud backup mein dikkat, agli entry par dobara try hoga.':'Data sirf is device mein hai. Cloud backup ke liye Claude account se login karke app ka link kholein.'}
+function setCloud(v){cloudState=v;const e=$('cl');if(e)e.textContent=cloudLine()}
+function schedulePush(){if(!cloudCol)return;clearTimeout(pushT);pushT=setTimeout(cloudPush,1500)}
+async function cloudPush(){
+  if(!cloudCol)return;
+  if(pushing){again=true;return}
+  pushing=true;setCloud('sync');
+  try{
+    const js=JSON.stringify(S),parts=[];
+    for(let i=0;i<js.length;i+=60000)parts.push(js.slice(i,i+60000));
+    for(let i=0;i<parts.length;i++)await cloudCol.doc('c'+i).set({t:parts[i]});
+    await cloudCol.doc('book').set({n:parts.length,u:S.updatedAt||0});
+    setCloud('ok');
+  }catch(e){setCloud('err')}
+  pushing=false;
+  if(again){again=false;cloudPush()}
+}
+async function cloudInit(){
+  try{
+    if(!window.claude)await new Promise(r=>setTimeout(r,1500));
+    if(!window.claude)return;
+    const [db,user]=await Promise.all([window.claude.use('db'),window.claude.use('user')]);
+    if(!db||!user)return;
+    const id=await user.id();if(!id)return;
+    cloudCol=db.collection('data/users/'+id);
+    const h=await cloudCol.doc('book').get();
+    if(h.exists){
+      const m=h.data();
+      if((m.u||0)>(S.updatedAt||0)){
+        let js='';for(let i=0;i<m.n;i++){const c=await cloudCol.doc('c'+i).get();js+=c.data().t}
+        S=JSON.parse(js);norm();
+        try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}
+        setCloud('ok');render();return;
+      }
+      if((m.u||0)<(S.updatedAt||0)){cloudPush();return}
+      setCloud('ok');
+    }else if(S.parties.length||S.stock.length){cloudPush()}
+    else setCloud('ok');
+    render();
+  }catch(e){setCloud('off')}
+}
+render();
+cloudInit();
+</script>
+</body>
+</html>
